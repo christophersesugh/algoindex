@@ -15,6 +15,8 @@ export function NavBar() {
 
 const navLinks = [
   { name: "home", link: "/" },
-  { name: "DSA", link: "/dsa" },
-  { name: "about algoIndex", link: "/about" },
+  { name: "courses", link: "/dsa" },
+  { name: "discord", link: "/discord" },
+  { name: "quiz", link: "/quiz" },
+  { name: "about", link: "/about" },
 ];

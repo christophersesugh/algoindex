@@ -28,6 +28,9 @@ export function MainNav({ ...navProps }) {
             </li>
           ))}
         </ul>
+        <button className="hidden md:block capitalize p-2 bg-blue-400 rounded-xl text-white">
+          log in
+        </button>
         <button
           className="md:hidden text-xl"
           onClick={() => setIsNavOpen(!isNavOpen)}
