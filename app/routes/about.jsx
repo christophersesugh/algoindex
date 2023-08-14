@@ -7,7 +7,7 @@ import { TbWorldBolt } from "react-icons/tb";
 
 export default function About() {
   return (
-    <section>
+    <section className="px-4">
       <div className="bg-slate-200">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-blue-500 text-3xl text-center py-6">

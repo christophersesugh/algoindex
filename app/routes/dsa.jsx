@@ -4,7 +4,7 @@ import React from "react";
 export default function DSA() {
   const [tabIndex, setTabIndex] = React.useState(0);
   return (
-    <section className="min-w-full min-h-screen">
+    <section className="min-w-full min-h-screen px-4">
       <div className="max-w-3xl mx-auto">
         <form
           action=""
