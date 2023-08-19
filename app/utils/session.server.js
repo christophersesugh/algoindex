@@ -1,9 +1,11 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
+import algon2 from "argon2";
 import { db } from "./db.server";
 
 export async function register({ password, email }) {
-  const passwordHash = await bcrypt.hash(password, 10);
+  // const passwordHash = await bcrypt.hash(password, 10);
+  const passwordHash = await algon2.hash(password);
   const user = await db.user.create({
     data: { passwordHash, email },
   });
@@ -18,7 +20,11 @@ export async function login({ email, password }) {
     return null;
   }
 
-  const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
+  // const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
+  // if (!isCorrectPassword) {
+  //   return null;
+  // }
+  const isCorrectPassword = await algon2.verify(user.passwordHash, password);
   if (!isCorrectPassword) {
     return null;
   }
