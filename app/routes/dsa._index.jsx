@@ -3,14 +3,10 @@ import { Link, useLoaderData } from "@remix-run/react";
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { db } from "~/utils/db.server";
-import { getUser } from "../utils/session.server";
 
-export const loader = async ({ request }) => {
-  const user = await getUser(request);
-
+export const loader = async () => {
   return json({
     courses: await db.course.findMany(),
-    user,
   });
 };
 
