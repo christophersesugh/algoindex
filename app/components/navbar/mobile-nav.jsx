@@ -1,4 +1,4 @@
-import { NavLink } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
 import React from "react";
 
 export function MobileNav({ ...navProps }) {
@@ -6,6 +6,7 @@ export function MobileNav({ ...navProps }) {
   function handleNavclose() {
     setIsNavOpen(false);
   }
+  const user = true;
   return (
     <nav
       className={`md:hidden drop-shadow-lg absolute w-full bg-white py-4 ${
@@ -26,6 +27,9 @@ export function MobileNav({ ...navProps }) {
             </NavLink>
           </li>
         ))}
+        <button className="capitalize" onClick={() => setIsNavOpen(false)}>
+          <Link to="/login">Login</Link>
+        </button>
       </ul>
     </nav>
   );

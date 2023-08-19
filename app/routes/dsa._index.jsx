@@ -3,16 +3,20 @@ import { Link, useLoaderData } from "@remix-run/react";
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { db } from "~/utils/db.server";
+import { getUser } from "../utils/session.server";
 
-export const loader = async () => {
+export const loader = async ({ request }) => {
+  const user = await getUser(request);
+
   return json({
     courses: await db.course.findMany(),
+    user,
   });
 };
 
 export default function DSA() {
   const { courses } = useLoaderData();
-  const [category, setCategory] = React.useState("data structure");
+  const [category, setCategory] = React.useState("data-structures");
 
   return (
     <section className="min-w-full min-h-screen">
@@ -65,13 +69,7 @@ export default function DSA() {
                         </h2>
                         <ol className="space-y-4 mx-auto max-w-2xl w-full bg-slate-100 mt-6 p-8 rounded-md list-decimal">
                           <li className="text-blue-500">
-                            <Link to={`/dsa/some`}>Linked lists</Link>
-                          </li>
-                          <li className="text-blue-500">
-                            <Link to={`/dsa/other`}>Linked lists</Link>
-                          </li>
-                          <li className="text-blue-500">
-                            <Link to={`/dsa/1`}>Linked lists</Link>
+                            <Link to={course.id}>{course.title}</Link>
                           </li>
                         </ol>
                       </>

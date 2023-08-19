@@ -12,7 +12,7 @@ export default function Index() {
   return (
     <>
       <header className="h-auto bg-[#394264] text-white px-4">
-        <div className="max-w-4xl mx-auto flex justify-center md:justify-between items-center gap-6 pt-12 pb-20">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 pt-12 pb-20">
           <div className="text-center md:text-left">
             <h1 className="text-3xl font-bold text-center md:text-left capitalize max-w-lg md:max-w-xs">
               master data structures and algorithms with{" "}
@@ -30,8 +30,8 @@ export default function Index() {
               </button>
             </Link>
           </div>
-          <div className="md:flex justify-center items-center relative  bg-green-300 rounded-[100%] hidden">
-            <img src="/algo.png" alt="algo index" className="w-[80%]" />
+          <div className="flex justify-center items-center relative  bg-green-300  rounded-[100%] w-[50%] md:w-[80%] mt-8 md:mt-0">
+            <img src="/algo.png" alt="algo index" className="w-[90%]" />
           </div>
         </div>
         <CoreFeatures />

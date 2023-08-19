@@ -11,31 +11,32 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  email String @unique
-  password String @unique
-  // courses Course[]
+  id           String  @id @default(uuid())
+  name         String
+  email        String  @unique
+  passwordHash String
+  role         String  @default("ADMIN")
+  courses      Course?
 }
 
-
 model Course {
-  id String @id @default(uuid())
-  title String
-  slug String
-  createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt @default(now())
-  category String
-  lessons Lesson[]
-  // createdById String?
-  // createdBy User? @relation(fields: [createdById], references: [id])
+  id          String   @id @default(uuid())
+  title       String
+  slug        String
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @default(now()) @updatedAt
+  category    String
+  lessons     Lesson[]
+  createdById String   @unique
+  createdBy   User     @relation(fields: [createdById], references: [id])
 }
 
 model Lesson {
-  id String @id @default(uuid())
-  title String
+  id        String   @id @default(uuid())
+  title     String
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt @default(now())
-  content String
-  courseId String
-  course Course @relation(fields: [courseId], references: [id])
+  updateAt  DateTime @default(now()) @updatedAt
+  content   String
+  courseId  String?  @unique
+  course    Course?  @relation(fields: [courseId], references: [id])
 }
