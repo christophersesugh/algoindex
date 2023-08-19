@@ -1,11 +1,11 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
-// import bcrypt from "bcryptjs";
-import algon2 from "argon2";
+import bcrypt from "bcryptjs";
+// import algon2 from "argon2";
 import { db } from "./db.server";
 
 export async function register({ password, email }) {
-  // const passwordHash = await bcrypt.hash(password, 10);
-  const passwordHash = await algon2.hash(password);
+  const passwordHash = await bcrypt.hash(password, 10);
+  // const passwordHash = await algon2.hash(password);
   const user = await db.user.create({
     data: { passwordHash, email },
   });
@@ -20,14 +20,14 @@ export async function login({ email, password }) {
     return null;
   }
 
-  // const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
-  // if (!isCorrectPassword) {
-  //   return null;
-  // }
-  const isCorrectPassword = await algon2.verify(user.passwordHash, password);
+  const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
   if (!isCorrectPassword) {
     return null;
   }
+  // const isCorrectPassword = await algon2.verify(user.passwordHash, password);
+  // if (!isCorrectPassword) {
+  //   return null;
+  // }
 
   return { id: user.id, email, role: user.role };
 }
@@ -78,7 +78,7 @@ export async function getUser(request) {
   }
 
   const user = await db.user.findUnique({
-    select: { id: true, name: true, email: true, role: true },
+    select: { id: true, email: true, role: true },
     where: { id: userId },
   });
 

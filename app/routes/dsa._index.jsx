@@ -42,7 +42,7 @@ export default function DSA() {
         </form>
         <div className="mx-auto">
           <div className="flex justify-center">
-            {Array.isArray(courses) &&
+            {Array.isArray(courses) && courses.length ? (
               courses.map((course, index) => (
                 <button
                   onClick={() => setCategory(course.category)}
@@ -55,7 +55,10 @@ export default function DSA() {
                 >
                   {course.category}
                 </button>
-              ))}
+              ))
+            ) : (
+              <h1 className="text-2xl text-slate-500">No courses available.</h1>
+            )}
           </div>
           <div className="flex flex-col">
             {Array.isArray(courses) &&
