@@ -65,30 +65,31 @@ export default function DSA() {
             )}
           </div>
           <div className="flex flex-col">
-            {Array.isArray(categories) && categories.length ? (
-              categories.map((category, index) => (
-                <div key={`uniqueCategory-${index}`}>
-                  {initialCategory === category.name && (
-                    <>
-                      <h2 className="text-xl mt-6 text-center text-blue-500 capitalize">
-                        {category.name}
-                      </h2>
-                      <ol className="space-y-4 mx-auto max-w-2xl w-full bg-slate-100 mt-6 p-8 rounded-md list-decimal">
-                        {category.courses.map((course, index) => (
-                          <li key={course.id} className="text-blue-700 text-lg">
-                            <button>
-                              <Link to={course.id}>{course.title}</Link>
-                            </button>
-                          </li>
-                        ))}
-                      </ol>
-                    </>
-                  )}
-                </div>
-              ))
-            ) : (
-              <p>No courses avalilable</p>
-            )}
+            {Array.isArray(categories) && categories.length
+              ? categories.map((category, index) => (
+                  <div key={`uniqueCategory-${index}`}>
+                    {initialCategory === category.name && (
+                      <>
+                        <h2 className="text-xl mt-6 text-center text-blue-500 capitalize">
+                          {category.name}
+                        </h2>
+                        <ol className="space-y-4 mx-auto max-w-2xl w-full bg-slate-100 mt-6 p-8 rounded-md list-decimal">
+                          {category.courses.map((course, index) => (
+                            <li
+                              key={course.id}
+                              className="text-blue-700 text-lg"
+                            >
+                              <button>
+                                <Link to={course.id}>{course.title}</Link>
+                              </button>
+                            </li>
+                          ))}
+                        </ol>
+                      </>
+                    )}
+                  </div>
+                ))
+              : null}
           </div>
         </div>
       </div>
