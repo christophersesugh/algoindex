@@ -8,7 +8,7 @@ export function MobileNav({ ...navProps }) {
   }
   return (
     <nav
-      className={`md:hidden drop-shadow-lg absolute w-full bg-white py-4 ${
+      className={`md:hidden drop-shadow-lg z-50 absolute w-full bg-white py-4 ${
         isNavOpen ? "block" : "hidden"
       }`}
     >
@@ -27,9 +27,14 @@ export function MobileNav({ ...navProps }) {
           </li>
         ))}
         {user ? (
-          <form action="/logout" method="post">
-            <button className="capitalize">Log out</button>
-          </form>
+          <>
+            <Link to="/my-account">
+              <button className="capitalize">my account</button>
+            </Link>
+            <form action="/logout" method="post">
+              <button className="capitalize">Log out</button>
+            </form>
+          </>
         ) : (
           <button className="capitalize" onClick={() => setIsNavOpen(false)}>
             <Link to="/login">Login</Link>

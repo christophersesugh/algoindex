@@ -28,19 +28,27 @@ export function MainNav({ ...navProps }) {
             </li>
           ))}
         </ul>
-        <Link to="/login">
-          {user ? (
+        {user ? (
+          <div className="flex gap-4 text-md">
+            <Link to="/my-account">
+              <button className="hidden md:block capitalize p-2 text-white">
+                my account
+              </button>
+            </Link>
             <form action="/logout" method="post">
-              <button className="hidden md:block capitalize p-2 bg-blue-400 rounded-xl text-white">
+              <button className="hidden md:block capitalize p-2 bg-white rounded-xl text-red-400">
                 log out
               </button>
             </form>
-          ) : (
+          </div>
+        ) : (
+          <Link to="/login">
             <button className="hidden md:block capitalize p-2 bg-blue-400 rounded-xl text-white">
               log in
             </button>
-          )}
-        </Link>
+          </Link>
+        )}
+
         <button
           className="md:hidden text-xl"
           onClick={() => setIsNavOpen(!isNavOpen)}
