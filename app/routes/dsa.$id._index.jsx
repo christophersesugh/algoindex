@@ -21,24 +21,6 @@ export default function DSAItemRoute() {
   return (
     <section className="min-w-full min-h-screen">
       <div className="max-w-3xl mx-auto px-4">
-        <form
-          action=""
-          className="max-w-2xl w-full mx-auto flex items-center bg-white rounded-md border border-blue-500 my-12"
-        >
-          <input
-            type="search"
-            placeholder="e.g: arrays"
-            name="search"
-            id="search"
-            className="p-2 focus:border-none bg-slate-100 rounded-md w-full"
-          />
-          <button
-            type="submit"
-            className="p-2 bg-blue-500 rounded-md text-white "
-          >
-            <AiOutlineSearch className="text-2xl" />
-          </button>
-        </form>
         <div className="mx-auto">
           <div className="flex flex-col">
             {Array.isArray(course.lessons) &&

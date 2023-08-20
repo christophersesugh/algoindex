@@ -31,7 +31,6 @@ export async function action({ request }) {
 }
 
 export default function Create() {
-  const data = useActionData();
   const [content, setContent] = React.useState(``);
   return (
     <section className="min-h-screen py-1 bg-slate-100">

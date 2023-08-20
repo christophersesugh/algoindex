@@ -21,7 +21,15 @@ export async function loader({ request }) {
   return { user };
 }
 
-export const links = () => [{ rel: "stylesheet", href: stylesheet }];
+export const links = () => [
+  { rel: "stylesheet", href: stylesheet },
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "true" },
+  {
+    href: "https://fonts.googleapis.com/css2?family=Mulish&display=swap",
+    rel: "stylesheet",
+  },
+];
 
 export default function App() {
   const user = useLoaderData();

@@ -37,28 +37,29 @@ export default function DSA() {
         </form>
         <div className="mx-auto">
           <div className="flex justify-center">
-            {Array.isArray(courses) && courses.length ? (
+            {/* {Array.isArray(courses) && courses.length ? (
               Array.from(
                 new Set(
                   courses.map((course) => {
                     return course.category;
                   })
                 )
-              ).map((uniqueCategory, index) => (
-                <button
-                  onClick={() => setCategory(uniqueCategory)}
-                  key={`item-${index}`}
-                  className={`p-2 border-b-4 duration-300 transition-all capitalize  ${
-                    category === uniqueCategory
-                      ? "border-b-blue-500 text-blue-600 bg-slate-200"
-                      : "bg-slate-300"
-                  }`}
-                >
-                  {uniqueCategory}
-                </button>
-              ))
-            ) : (
-              <h1 className="text-2xl text-slate-500">No courses available.</h1>
+              ).map((uniqueCategory, index) => ( */}
+            <button
+              onClick={() => setCategory(uniqueCategory)}
+              key={`item-${index}`}
+              className={`p-2 border-b-4 duration-300 transition-all capitalize  ${
+                category === uniqueCategory
+                  ? "border-b-blue-500 text-blue-600 bg-slate-200"
+                  : "bg-slate-300"
+              }`}
+            >
+              {uniqueCategory}
+            </button>
+            {/* ))
+            ) */}
+            : (
+            <h1 className="text-2xl text-slate-500">No courses available.</h1>
             )}
           </div>
           <div className="flex flex-col">
