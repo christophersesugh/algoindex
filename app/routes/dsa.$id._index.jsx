@@ -23,21 +23,21 @@ export default function DSAItemRoute() {
       <div className="max-w-3xl mx-auto px-4">
         <div className="mx-auto">
           <div className="flex flex-col">
-            {Array.isArray(course.lessons) &&
-              course.lessons?.map((lesson, index) => {
-                return (
-                  <div key={`${lesson.id} ${index}`}>
-                    <h2 className="text-xl mt-6 text-center text-blue-500 capitalize">
-                      {lesson.title}
-                    </h2>
-                    <ol className="space-y-4 mx-auto max-w-2xl w-full bg-slate-100 mt-6 p-8 rounded-md list-decimal">
+            <h2 className="text-xl mt-6 text-center text-blue-500 capitalize">
+              {course.title}
+            </h2>
+            <ol className="space-y-4 mx-auto max-w-2xl w-full bg-slate-100 mt-6 p-8 rounded-md list-decimal">
+              {Array.isArray(course.lessons) &&
+                course.lessons?.map((lesson, index) => {
+                  return (
+                    <div key={`${lesson.id} ${index}`}>
                       <li className="text-blue-500">
                         <Link to={`${lesson.id}`}>{lesson.title}</Link>
                       </li>
-                    </ol>
-                  </div>
-                );
-              })}
+                    </div>
+                  );
+                })}
+            </ol>
           </div>
         </div>
       </div>
