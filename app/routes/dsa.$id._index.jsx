@@ -18,7 +18,6 @@ export const loader = async ({ params }) => {
 
 export default function DSAItemRoute() {
   const { course } = useLoaderData();
-  console.log(course.lessons);
   return (
     <section className="min-w-full min-h-screen">
       <div className="max-w-3xl mx-auto px-4">

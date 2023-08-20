@@ -13,27 +13,20 @@ export async function action({ request }) {
   const lessonTitle = form.get("lesson_title");
   const lessonContent = form.get("lesson_content");
   const user = await getUser(request);
-  if (user.role !== "ADMIN") {
-    throw redirect("/dsa");
+  if (!user || user.role !== "ADMIN") {
+    throw redirect("/");
   }
   const newLesson = {
     title: CourseTitle,
     slug: dashify(CourseTitle),
     category,
-    createdBy: {
-      connect: { id: user.id },
-    },
     lessons: {
       create: [{ title: lessonTitle, content: lessonContent }],
     },
   };
   const course = await db.course.create({
     data: newLesson,
-    include: {
-      createdBy: true,
-    },
   });
-  console.log(user);
   return { user, course };
 }
 

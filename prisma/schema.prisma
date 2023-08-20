@@ -6,28 +6,26 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
-  id           String  @id @default(uuid())
-  email        String  @unique
+  id           String @id @default(uuid())
+  email        String @unique
   passwordHash String
-  role         String  @default("ADMIN")
-  courses      Course?
+  role         String @default("ADMIN")
 }
 
 model Course {
-  id          String   @id @default(uuid())
-  title       String
-  slug        String
-  createdAt   DateTime @default(now())
-  updateAt    DateTime @default(now()) @updatedAt
-  category    String
-  lessons     Lesson[]
-  createdById String   @unique
-  createdBy   User     @relation(fields: [createdById], references: [id])
+  id        String   @id @default(uuid())
+  title     String
+  slug      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @default(now()) @updatedAt
+  category  String
+  lessons   Lesson[]
 }
 
 model Lesson {
@@ -36,6 +34,6 @@ model Lesson {
   createdAt DateTime @default(now())
   updateAt  DateTime @default(now()) @updatedAt
   content   String
-  courseId  String?  @unique
-  course    Course?  @relation(fields: [courseId], references: [id])
+  courseId  String   @unique
+  course    Course   @relation(fields: [courseId], references: [id])
 }

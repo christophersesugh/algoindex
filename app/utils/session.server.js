@@ -1,11 +1,11 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
-// import bcrypt from "bcryptjs";
-import algon2 from "argon2";
+import bcrypt from "bcryptjs";
+// import algon2 from "argon2";
 import { db } from "./db.server";
 
 export async function register({ password, email }) {
-  // const passwordHash = await bcrypt.hash(password, 10);
-  const passwordHash = await algon2.hash(password);
+  const passwordHash = await bcrypt.hash(password, 10);
+  // const passwordHash = await algon2.hash(password);
   const user = await db.user.create({
     data: { passwordHash, email },
   });
@@ -20,14 +20,14 @@ export async function login({ email, password }) {
     return null;
   }
 
-  // const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
-  // if (!isCorrectPassword) {
-  //   return null;
-  // }
-  const isCorrectPassword = await algon2.verify(user.passwordHash, password);
+  const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
   if (!isCorrectPassword) {
     return null;
   }
+  // const isCorrectPassword = await algon2.verify(user.passwordHash, password);
+  // if (!isCorrectPassword) {
+  //   return null;
+  // }
 
   return { id: user.id, email, role: user.role };
 }
@@ -66,7 +66,7 @@ export async function requireUserId(request) {
   const session = await getUserSession(request);
   const userId = session.get("userId");
   if (!userId || typeof userId !== "string") {
-    throw redirect("/");
+    throw redirect("/login");
   }
   return userId;
 }
@@ -91,7 +91,7 @@ export async function getUser(request) {
 
 export async function logout(request) {
   const session = await getUserSession(request);
-  return redirect("/", {
+  return redirect("/login", {
     headers: {
       "Set-Cookie": await storage.destroySession(session),
     },
@@ -101,14 +101,8 @@ export async function logout(request) {
 export async function createUserSession(userId, role) {
   const session = await storage.getSession();
   session.set("userId", userId);
-  if (role === "ADMIN") {
-    return redirect("/admin", {
-      headers: {
-        "Set-Cookie": await storage.commitSession(session),
-      },
-    });
-  }
-  return redirect("/dsa", {
+
+  return redirect("/", {
     headers: {
       "Set-Cookie": await storage.commitSession(session),
     },

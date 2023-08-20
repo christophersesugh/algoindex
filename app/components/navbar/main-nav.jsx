@@ -4,7 +4,7 @@ import { FaTimes } from "react-icons/fa";
 import { AiOutlineBars } from "react-icons/ai";
 
 export function MainNav({ ...navProps }) {
-  const { isNavOpen, setIsNavOpen, navLinks } = navProps;
+  const { isNavOpen, setIsNavOpen, navLinks, user } = navProps;
   return (
     <nav className="bg-[#394264]">
       <div className="max-w-5xl mx-auto py-6 flex justify-between px-4  items-center text-white text-lg">
@@ -29,9 +29,17 @@ export function MainNav({ ...navProps }) {
           ))}
         </ul>
         <Link to="/login">
-          <button className="hidden md:block capitalize p-2 bg-blue-400 rounded-xl text-white">
-            log in
-          </button>
+          {user ? (
+            <form action="/logout" method="post">
+              <button className="hidden md:block capitalize p-2 bg-blue-400 rounded-xl text-white">
+                log out
+              </button>
+            </form>
+          ) : (
+            <button className="hidden md:block capitalize p-2 bg-blue-400 rounded-xl text-white">
+              log in
+            </button>
+          )}
         </Link>
         <button
           className="md:hidden text-xl"

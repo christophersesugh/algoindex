@@ -34,22 +34,27 @@ export default function DSA() {
           >
             <AiOutlineSearch className="text-2xl" />
           </button>
-          {/* <p className="text-xl text-center my-6">Search AlgoIndex</p> */}
         </form>
         <div className="mx-auto">
           <div className="flex justify-center">
             {Array.isArray(courses) && courses.length ? (
-              courses.map((course, index) => (
+              Array.from(
+                new Set(
+                  courses.map((course) => {
+                    return course.category;
+                  })
+                )
+              ).map((uniqueCategory, index) => (
                 <button
-                  onClick={() => setCategory(course.category)}
+                  onClick={() => setCategory(uniqueCategory)}
                   key={`item-${index}`}
                   className={`p-2 border-b-4 duration-300 transition-all capitalize  ${
-                    category === course.category
+                    category === uniqueCategory
                       ? "border-b-blue-500 text-blue-600 bg-slate-200"
                       : "bg-slate-300"
                   }`}
                 >
-                  {course.category}
+                  {uniqueCategory}
                 </button>
               ))
             ) : (
@@ -58,24 +63,35 @@ export default function DSA() {
           </div>
           <div className="flex flex-col">
             {Array.isArray(courses) &&
-              courses.map((course, index) => {
-                return (
-                  <div key={`${course.id} ${index}`}>
-                    {category === course.category && (
+              Array.from(new Set(courses.map((course) => course.category))).map(
+                (uniqueCategory, index) => (
+                  <div key={`uniqueCategory-${index}`}>
+                    {category === uniqueCategory && (
                       <>
                         <h2 className="text-xl mt-6 text-center text-blue-500 capitalize">
-                          {course.category}
+                          {uniqueCategory}
                         </h2>
                         <ol className="space-y-4 mx-auto max-w-2xl w-full bg-slate-100 mt-6 p-8 rounded-md list-decimal">
-                          <li className="text-blue-500">
-                            <Link to={course.id}>{course.title}</Link>
-                          </li>
+                          {courses
+                            .filter(
+                              (course) => course.category === uniqueCategory
+                            )
+                            .map((filteredCourse, index) => (
+                              <li
+                                key={`${filteredCourse.id} ${index}`}
+                                className="text-blue-500"
+                              >
+                                <Link to={filteredCourse.id}>
+                                  {filteredCourse.title}
+                                </Link>
+                              </li>
+                            ))}
                         </ol>
                       </>
                     )}
                   </div>
-                );
-              })}
+                )
+              )}
           </div>
         </div>
       </div>

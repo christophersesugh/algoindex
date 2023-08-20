@@ -2,11 +2,10 @@ import { Link, NavLink } from "@remix-run/react";
 import React from "react";
 
 export function MobileNav({ ...navProps }) {
-  const { isNavOpen, setIsNavOpen, navLinks } = navProps;
+  const { isNavOpen, setIsNavOpen, navLinks, user } = navProps;
   function handleNavclose() {
     setIsNavOpen(false);
   }
-  const user = true;
   return (
     <nav
       className={`md:hidden drop-shadow-lg absolute w-full bg-white py-4 ${
@@ -27,9 +26,15 @@ export function MobileNav({ ...navProps }) {
             </NavLink>
           </li>
         ))}
-        <button className="capitalize" onClick={() => setIsNavOpen(false)}>
-          <Link to="/login">Login</Link>
-        </button>
+        {user ? (
+          <form action="/logout" method="post">
+            <button className="capitalize">Log out</button>
+          </form>
+        ) : (
+          <button className="capitalize" onClick={() => setIsNavOpen(false)}>
+            <Link to="/login">Login</Link>
+          </button>
+        )}
       </ul>
     </nav>
   );

@@ -1,7 +1,15 @@
+import { redirect } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import React from "react";
+import { getUser } from "~/utils/session.server";
 
-// export const loader = async ({ request }) => {};
+export const loader = async ({ request }) => {
+  const user = await getUser(request);
+  if (!user || user.role !== "ADMIN") {
+    return redirect("/");
+  }
+  return null;
+};
 
 export default function Admin() {
   return (

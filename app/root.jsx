@@ -7,13 +7,24 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
+import { getUser } from "../app/utils/session.server";
 import { NavBar } from "./components/navbar";
 import Footer from "./components/footer";
+
+export async function loader({ request }) {
+  const user = await getUser(request);
+  if (!user) {
+    return null;
+  }
+  return { user };
+}
 
 export const links = () => [{ rel: "stylesheet", href: stylesheet }];
 
 export default function App() {
+  const user = useLoaderData();
   return (
     <html lang="en">
       <head>
@@ -23,7 +34,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <NavBar />
+        <NavBar user={user?.user} />
         <Outlet />
         <Footer />
         <ScrollRestoration />
