@@ -1,9 +1,16 @@
 import React from "react";
 import { getUser } from "~/utils/session.server";
 import { createLesson } from "~/utils/prisma.server";
-import { Editor } from "../components/admin/editor";
-import { Form, useActionData } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
+
+export async function loader({ request }) {
+  const user = await getUser(request);
+  if (!user || user.role !== "ADMIN") {
+    throw redirect("/");
+  }
+  return null;
+}
 
 export async function action({ request }) {
   const form = await request.formData();
@@ -19,41 +26,64 @@ export async function action({ request }) {
     title: lessonTitle,
     content: lessonContent,
   };
-  const lesson = await createLesson(courseTitle, categoryName, lessonData);
-  return { user, lesson };
+  await createLesson(courseTitle, categoryName, lessonData);
+  return redirect("/admin");
 }
 
 export default function Create() {
-  const [content, setContent] = React.useState(``);
   return (
     <section className="min-h-screen py-1 bg-slate-100">
       <div className="max-w-3xl mx-auto py-12">
         <Form
           method="POST"
-          className="w-full flex flex-col items-center mx-auto justify-center drop-shadow-xl rounded-md bg-white"
+          className="w-full flex flex-col items-center mx-auto justify-center drop-shadow-xl rounded-md bg-white p-8"
         >
-          <label htmlFor="category">Category</label>
-          <select
-            id="category"
-            name="category_name"
-            className="w-full md:w-[50%]"
-          >
-            <option value="data-structures">Data structures</option>
-            <option value="algorithms">Algorithms</option>
-          </select>
-          <label htmlFor="course-title">Course title</label>
-          <input type="text" name="course_title" id="course-title" />
-          <label htmlFor="lesson-title">Lesson title</label>
-          <input type="text" name="lesson_title" id="lesson-title" />
-          <input
-            type="hidden"
-            name="lesson_content"
-            id="lesson-content"
-            value={content}
-            onChange={() => {}}
-          />
-          <Editor content={content} setContent={setContent} />
-          <button type="submit">Submit</button>
+          <div className="w-full mb-8 mx-auto">
+            <label htmlFor="category">Category</label>
+            <select
+              required
+              id="category"
+              name="category_name"
+              className="w-full  p-2 rounded-md border border-black bg-slate-100"
+            >
+              <option value="data-structures">Data structures</option>
+              <option value="algorithms">Algorithms</option>
+            </select>
+          </div>
+          <div className="mb-8 w-full">
+            <label htmlFor="course-title">Course title</label>
+            <input
+              required
+              type="text"
+              name="course_title"
+              id="course-title"
+              className="w-full  p-2 rounded-md border border-black bg-slate-100"
+            />
+          </div>
+          <div className="mb-8 w-full">
+            <label htmlFor="lesson-title">Lesson title</label>
+            <input
+              required
+              type="text"
+              name="lesson_title"
+              id="lesson-title"
+              className="w-full  p-2 rounded-md border border-black bg-slate-100"
+            />
+          </div>
+          <div className="mb-8 w-full">
+            <label htmlFor="lesson-content">Lesson content</label>
+            <textarea
+              required
+              name="lesson_content"
+              id="lesson-content"
+              cols="30"
+              rows="20"
+              className="w-full  p-2 rounded-md border border-black bg-slate-100"
+            ></textarea>
+          </div>
+          <button type="submit" className="bg-slate-300 p-2 rounded-md">
+            Submit
+          </button>
         </Form>
       </div>
     </section>

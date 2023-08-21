@@ -1,7 +1,8 @@
 import React from "react";
-import { useActionData } from "@remix-run/react";
+import { useActionData, useNavigation } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 import { createUserSession, login, register } from "~/utils/session.server";
+import { FaSpinner } from "react-icons/fa";
 
 function validateEmail(email) {
   if (!email.includes("@")) {
@@ -41,7 +42,7 @@ export let action = async ({ request }) => {
       if (!user) {
         return {
           fields,
-          formError: `Email/Password combination is incorrect`,
+          formError: `Email or Password incorrect`,
         };
       }
       return createUserSession(user.id, user.role);
@@ -73,15 +74,16 @@ export let action = async ({ request }) => {
 
 export default function Login() {
   const actionData = useActionData();
+  const navigation = useNavigation();
   return (
-    <div className="grid place-items-center p-2 h-screen bg-slate-100">
+    <div className="flex justify-center items-start pt-20 p-2 h-screen bg-slate-100">
       <form
         method="post"
-        className="rounded-md drop-shadow-xl p-8 bg-white max-w-lg"
+        className="rounded-md drop-shadow-xl p-8 bg-white w-full max-w-md"
       >
-        <fieldset className="w-full flex justify-items-evenly mb-6 text-center">
+        <fieldset className="w-full flex justify-evenly my-6 text-center">
           <legend className="sr-only">Login or Register?</legend>
-          <label className="w-[50%]">
+          <label>
             <input
               type="radio"
               name="loginType"
@@ -93,7 +95,7 @@ export default function Login() {
             />{" "}
             Login
           </label>
-          <label className="w-[50%]">
+          <label>
             <input
               type="radio"
               name="loginType"
@@ -103,8 +105,8 @@ export default function Login() {
             Register
           </label>
         </fieldset>
-        <div>
-          <label htmlFor="email-input">email</label>
+        <div className="mb-8">
+          <label htmlFor="email-input">Email</label>
           <input
             type="email"
             id="email-input"
@@ -130,10 +132,15 @@ export default function Login() {
           ) : null}
         </div>
         <button
+          disabled={navigation.state === "submitting"}
           type="submit"
-          className="bg-[#394264] p-2 rounded-md text-white mt-6"
+          className="bg-[#394264] p-2 rounded-md text-white disabled:bg-slate-300 mt-6"
         >
-          Submit
+          {navigation.state === "loading" ? (
+            <FaSpinner className="text-white animate-spin" />
+          ) : (
+            "Submit"
+          )}
         </button>
         {actionData?.formError ? (
           <p className="text-red-500 mt-2">{actionData.formError}</p>

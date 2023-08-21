@@ -2,6 +2,7 @@ import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import React from "react";
 import { db } from "~/utils/db.server";
+import { Markdown } from "../components/markdown";
 
 export const loader = async ({ params }) => {
   const id = params.id;
@@ -21,7 +22,7 @@ export const loader = async ({ params }) => {
 export default function Lesson() {
   const { lesson } = useLoaderData();
   return (
-    <section className="min-w-full min-h-screen bg-slate-100">
+    <section className="min-w-full min-h-screen max-w-3xl bg-slate-100">
       <div className="max-w-3xl py-12 mx-auto px-4">
         {/* <Link to={``}>
         <button className="mb-6">Back to course</button>
@@ -40,7 +41,9 @@ export default function Lesson() {
           </span>{" "}
           {lesson.title}
         </h2>
-        <div className="mt-12">{lesson.content}</div>
+        <div className="mt-12">
+          <Markdown source={lesson.content} />
+        </div>
       </div>
     </section>
   );

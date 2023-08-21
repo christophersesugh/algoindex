@@ -1,3 +1,4 @@
+import yaml from "js-yaml";
 import { db } from "./db.server";
 
 async function createLesson(courseTitle, categoryName, lessonData) {
@@ -40,7 +41,7 @@ async function createLesson(courseTitle, categoryName, lessonData) {
   const lesson = await db.lesson.create({
     data: {
       title: lessonData.title,
-      content: lessonData.content,
+      content: yaml.dump(lessonData.content),
       course: {
         connect: {
           id: course.id,
