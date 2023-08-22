@@ -1,5 +1,5 @@
 import React from "react";
-import { useActionData, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 import { createUserSession, login, register } from "~/utils/session.server";
 import { FaSpinner } from "react-icons/fa";
@@ -75,10 +75,11 @@ export let action = async ({ request }) => {
 export default function Login() {
   const actionData = useActionData();
   const navigation = useNavigation();
+  console.log(navigation.state);
   return (
     <div className="flex justify-center items-start pt-20 p-2 h-screen bg-slate-100">
-      <form
-        method="post"
+      <Form
+        method="POST"
         className="rounded-md drop-shadow-xl p-8 bg-white w-full max-w-md"
       >
         <fieldset className="w-full flex justify-evenly my-6 text-center">
@@ -123,7 +124,7 @@ export default function Login() {
           <input
             id="password-input"
             name="password"
-            type="text"
+            type="password"
             required
             className="p-2 rounded-sm w-full border"
           />
@@ -136,8 +137,8 @@ export default function Login() {
           type="submit"
           className="bg-[#394264] p-2 rounded-md text-white disabled:bg-slate-300 mt-6"
         >
-          {navigation.state === "loading" ? (
-            <FaSpinner className="text-white animate-spin" />
+          {navigation.state === "submitting" ? (
+            <FaSpinner className="text-black animate-spin text-3xl" />
           ) : (
             "Submit"
           )}
@@ -145,7 +146,7 @@ export default function Login() {
         {actionData?.formError ? (
           <p className="text-red-500 mt-2">{actionData.formError}</p>
         ) : null}
-      </form>
+      </Form>
     </div>
   );
 }

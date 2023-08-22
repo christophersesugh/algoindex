@@ -80,7 +80,9 @@ export default function DSA() {
                               className="text-blue-700 text-lg"
                             >
                               <button>
-                                <Link to={course.id}>{course.title}</Link>
+                                <Link prefetch="intent" to={course.id}>
+                                  {course.title}
+                                </Link>
                               </button>
                             </li>
                           ))}

@@ -42,3 +42,18 @@ model Lesson {
   courseId  String   @db.ObjectId
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
+
+model Quiz {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  question String
+  category String
+  options  Option[]
+}
+
+model Option {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  isCorrect Boolean @default(false)
+  quiz      Quiz    @relation(fields: [quizId], references: [id])
+  quizId    String  @db.ObjectId
+}

@@ -28,20 +28,15 @@ export default function Lesson() {
         <button className="mb-6">Back to course</button>
         
         </Link> */}
-        <h1 className="text-2xl text-blue-950 mb-8 bg-slate-200 p-2 rounded-sm">
-          <span className="bg-zinc-700 text-white rounded-sm p-2">
-            {" "}
-            Course:
-          </span>{" "}
-          {lesson.course.title}
-        </h1>
-        <h2 className="text-xl text-blue-700 bg-slate-200 p-2 rounded-sm">
-          <span className="bg-stone-700 rounded-sm text-white p-2">
-            Lesson:
-          </span>{" "}
-          {lesson.title}
-        </h2>
-        <div className="mt-12">
+        <div>
+          <h1 className="text-2xl text-blue-950 bg-slate-200 p-2 rounded-sm">
+            {lesson.course.title}
+          </h1>
+          <h2 className="text-xl text-blue-700 bg-slate-200 p-2 rounded-sm">
+            {lesson.title}
+          </h2>
+        </div>
+        <div className="mt-12 markdown">
           <Markdown source={lesson.content} />
         </div>
       </div>

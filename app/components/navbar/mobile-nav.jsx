@@ -16,6 +16,7 @@ export function MobileNav({ ...navProps }) {
         {navLinks.map((item, index) => (
           <li key={`item-${index}`}>
             <NavLink
+              prefetch="render"
               onClick={handleNavclose}
               to={item.link}
               className={({ isActive, isPending }) =>

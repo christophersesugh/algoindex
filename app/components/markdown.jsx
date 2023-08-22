@@ -71,6 +71,7 @@ export function BlockQuote({ node, children, ...props }) {
 export function Markdown({ source }) {
   return (
     <ReactMarkdown
+      className="markdown"
       children={source}
       components={{
         h1: H1,

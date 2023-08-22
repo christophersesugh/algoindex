@@ -18,6 +18,7 @@ export function MainNav({ ...navProps }) {
           {navLinks.map((item, index) => (
             <li key={`item-${index}`}>
               <NavLink
+                prefetch="render"
                 to={item.link}
                 className={({ isActive, isPending }) =>
                   isActive ? "text-blue-400 capitalize" : "capitalize"

@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import React from "react";
 import { getUser } from "~/utils/session.server";
 import { MdDelete } from "react-icons/md";
@@ -13,7 +13,8 @@ export const loader = async ({ request }) => {
     return redirect("/");
   }
   const categoriess = await getCourses();
-  return { categoriess };
+  const quizzes = await db.quiz.findMany({ include: { options: true } });
+  return { categoriess, quizzes };
 };
 
 export const action = async ({ request }) => {
@@ -31,16 +32,24 @@ export const action = async ({ request }) => {
 };
 
 export default function Admin() {
-  const { categoriess } = useLoaderData();
+  const { categoriess, quizzes } = useLoaderData();
+  console.log(quizzes);
   return (
     <section className="min-h-screen bg-slate-100 py-12">
       <div className="max-w-2xl mx-auto px-4">
-        <Link to="create">
-          <button className="capitalize p-2 bg-blue-500 rounded-md text-white">
-            add lesson
-          </button>
-        </Link>
-        <form
+        <div className="flex justify-around">
+          <Link to="create">
+            <button className="capitalize p-2 bg-blue-500 rounded-md text-white">
+              add lesson
+            </button>
+          </Link>
+          <Link to="create-quiz">
+            <button className="capitalize p-2 bg-blue-500 rounded-md text-white">
+              add quiz
+            </button>
+          </Link>
+        </div>
+        <Form
           method="POST"
           className="mt-8 bg-slate-300/50 min-w-full rounded-md w-full p-2"
         >
@@ -88,7 +97,52 @@ export default function Admin() {
           ) : (
             <p>no courses</p>
           )}
-        </form>
+        </Form>
+
+        <Form className="mt-8" method="POST">
+          {Array.isArray(quizzes) && quizzes.length ? (
+            quizzes.map((quiz) => (
+              <div
+                key={quiz.id}
+                className="rounded-md bg-slate-300/50 p-2 mb-2"
+              >
+                <div className="flex flex-col">
+                  <p>
+                    <span className="capitalize mr-2 text-lg">category:</span>{" "}
+                    {quiz.category}
+                  </p>
+
+                  <p>
+                    <span className="mr-2 text-lg">Question:</span>
+                    {quiz.question}
+                  </p>
+                </div>
+                <p className="text-lg">Option:</p>
+                <div className="flex gap-4">
+                  {quiz.options.map((option, index) => (
+                    <div key={option.id} className="flex justify-start">
+                      <p>
+                        <span className="mr-1">{index + 1}.</span> {option.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-6 mt-4">
+                  <Link to={`create-quiz/${quiz.id}`}>
+                    <button>
+                      <FaEdit className="text-green-500" />
+                    </button>
+                  </Link>
+                  <button type="submit" value={quiz.id} name="quiz_id">
+                    <MdDelete className="text-red-500" />
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No quizzes</p>
+          )}
+        </Form>
       </div>
     </section>
   );

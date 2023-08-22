@@ -6,3 +6,10 @@
 htlm {
   font-family: "Mulish", sans-serif;
 }
+
+.markdown {
+  font-family: "Fira Code", monospace !important;
+}
+code {
+  font-family: "Fira Code", monospace !important;
+}

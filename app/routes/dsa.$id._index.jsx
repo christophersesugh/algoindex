@@ -32,7 +32,9 @@ export default function DSAItemRoute() {
                   return (
                     <div key={`${lesson.id} ${index}`}>
                       <li className="text-blue-500">
-                        <Link to={`${lesson.id}`}>{lesson.title}</Link>
+                        <Link prefetch="intent" to={`${lesson.id}`}>
+                          {lesson.title}
+                        </Link>
                       </li>
                     </div>
                   );
