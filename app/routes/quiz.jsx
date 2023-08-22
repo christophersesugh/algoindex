@@ -24,21 +24,13 @@ export default function Quiz() {
   const [currentQuizQuestion, setCurrentQuizQuestion] = React.useState(0);
   const [correctAnswersCount, setCorrectAnswersCount] = React.useState(0);
   const [quizScore, setQuizScore] = React.useState(0);
-  const [quizEnded, setQuizEnded] = React.useState(false);
-  const formRef = React.useRef(null);
-  console.log(quizScore);
-  const handleQuizEnd = () => {
-    setQuizEnded(true);
-    setTimeout(() => {
-      formRef.current.submit();
-    }, 5000); // Submit the form after 5 seconds
-  };
+
   const handleNextQuestion = (isCorrect) => {
     if (isCorrect) {
       setCorrectAnswersCount(correctAnswersCount + 1);
     }
 
-    if (currentQuizQuestion < data?.quizzes?.length - 1) {
+    if (currentQuizQuestion < data?.quizzes?.length) {
       setCurrentQuizQuestion(currentQuizQuestion + 1);
     } else {
       const quizScorePercentage =
