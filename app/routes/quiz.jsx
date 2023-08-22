@@ -24,7 +24,6 @@ export default function Quiz() {
   const [currentQuizQuestion, setCurrentQuizQuestion] = React.useState(0);
   const [correctAnswersCount, setCorrectAnswersCount] = React.useState(0);
   const [quizScore, setQuizScore] = React.useState(0);
-
   const handleNextQuestion = (isCorrect) => {
     if (isCorrect) {
       setCorrectAnswersCount(correctAnswersCount + 1);
