@@ -1,4 +1,4 @@
-import { redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import React from "react";
 import { getUser } from "~/utils/session.server";
@@ -20,6 +20,7 @@ export const loader = async ({ request }) => {
 export const action = async ({ request }) => {
   const form = await request.formData();
   const lessonId = form.get("lesson_id");
+  const quizId = form.get("quiz_id");
   if (lessonId) {
     await db.lesson.delete({
       where: {
@@ -27,6 +28,16 @@ export const action = async ({ request }) => {
       },
     });
     return redirect("/admin");
+  }
+
+  if (quizId) {
+    try {
+      await db.option.deleteMany({ where: { quizId } });
+      await db.quiz.delete({ where: quizId });
+      return json({ message: "Quiz delete success." }, 200);
+    } catch (error) {
+      return json({ message: "Error deleting quiz." }, 500);
+    }
   }
   return null;
 };

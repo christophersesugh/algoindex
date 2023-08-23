@@ -1,8 +1,9 @@
 import React from "react";
 import { getUser } from "~/utils/session.server";
 import { createLesson } from "~/utils/prisma.server";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
+import { useLocalStorageState } from "../utils/hooks";
 
 export async function loader({ request }) {
   const user = await getUser(request);
@@ -31,6 +32,11 @@ export async function action({ request }) {
 }
 
 export default function Create() {
+  // const [lessonContent, setLessonContent] = useLocalStorageState(
+  //   "lesson_content",
+  //   ""
+  // );
+  const navigattion = useNavigation();
   return (
     <section className="min-h-screen py-1 bg-slate-100">
       <div className="max-w-3xl mx-auto py-12">
@@ -78,11 +84,15 @@ export default function Create() {
               id="lesson-content"
               cols="30"
               rows="20"
+              // value={lessonContent}
+              // onChange={(e) => setLessonContent(e.target.value)}
               className="w-full  p-2 rounded-md border border-black bg-slate-100"
             ></textarea>
           </div>
           <button type="submit" className="bg-slate-300 p-2 rounded-md">
-            Submit
+            {navigattion.state === "submitting"
+              ? "Creating course..."
+              : "Create course"}
           </button>
         </Form>
       </div>

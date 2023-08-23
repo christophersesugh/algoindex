@@ -12,8 +12,11 @@ import { json, redirect } from "@remix-run/node";
 import { Markdown } from "../components/markdown";
 
 export async function loader({ request }) {
+  const user = await getUser(request);
+  if (!user || user === "undefined") {
+    return redirect("/login");
+  }
   try {
-    const user = await getUser(request);
     const quizzes = await db.quiz.findMany({ include: { options: true } });
     return json({ user, quizzes, errorMessage: null }, 200);
   } catch (error) {
@@ -80,12 +83,13 @@ export default function Quiz() {
             <input type="hidden" name="quiz_length" value={quizzes.length} />
 
             <h1 className="text-2xl text-center mb-6">Quiz</h1>
-            <p className="text-lg text-center">
-              Question: {currentQuizQuestion} of {quizzes.length}
-            </p>
+
             {currentQuizQuestion < quizzes.length ? (
               currentQuestion && (
                 <>
+                  <p className="text-lg text-center">
+                    Question: {currentQuizQuestion + 1} of {quizzes.length}
+                  </p>
                   <Markdown source={currentQuestion.question} />
                   {currentQuestion.options.map((option, index) => (
                     <div className="flex flex-col gap-6" key={option.id}>
@@ -106,20 +110,24 @@ export default function Quiz() {
                     </div>
                   ))}
                   <div className="flex justify-around">
-                    <button
-                      type="button"
-                      onClick={() => handlePreviousQuestion()}
-                      className="rounded-sm p-2 bg-blue-500 mt-6 text-white"
-                    >
-                      Previous question
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNextQuestion(false)}
-                      className="rounded-sm p-2 bg-blue-500 mt-6 text-white"
-                    >
-                      Next question
-                    </button>
+                    {currentQuizQuestion > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => handlePreviousQuestion()}
+                        className="rounded-sm p-2 bg-blue-500 mt-6 text-white"
+                      >
+                        Previous question
+                      </button>
+                    )}
+                    {currentQuizQuestion < quizzes.length - 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleNextQuestion(false)}
+                        className="rounded-sm p-2 bg-blue-500 mt-6 text-white"
+                      >
+                        Next question
+                      </button>
+                    )}
                   </div>
                 </>
               )

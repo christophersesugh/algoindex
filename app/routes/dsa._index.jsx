@@ -26,9 +26,9 @@ export default function DSA() {
   return (
     <section className="min-w-full min-h-screen">
       <div className="max-w-3xl mx-auto px-4">
-        <form
+        {/* <form
           method="POST"
-          className="max-w-2xl w-full mx-auto flex items-center bg-white rounded-md border border-blue-500 my-12"
+          className="max-w-2xl w-full mx-auto flex items-center bg-white rounded-md border border-blue-500 mt-12"
         >
           <input
             type="search"
@@ -43,8 +43,8 @@ export default function DSA() {
           >
             <AiOutlineSearch className="text-2xl" />
           </button>
-        </form>
-        <div className="mx-auto">
+        </form> */}
+        <div className="mx-auto mt-12">
           <div className="flex justify-center">
             {Array.isArray(categories) && categories.length ? (
               categories.map((category, index) => (
