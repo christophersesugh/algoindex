@@ -33,7 +33,6 @@ export const action = async ({ request }) => {
 
 export default function Admin() {
   const { categoriess, quizzes } = useLoaderData();
-  console.log(quizzes);
   return (
     <section className="min-h-screen bg-slate-100 py-12">
       <div className="max-w-2xl mx-auto px-4">
@@ -107,11 +106,6 @@ export default function Admin() {
                 className="rounded-md bg-slate-300/50 p-2 mb-2"
               >
                 <div className="flex flex-col">
-                  <p>
-                    <span className="capitalize mr-2 text-lg">category:</span>{" "}
-                    {quiz.category}
-                  </p>
-
                   <p>
                     <span className="mr-2 text-lg">Question:</span>
                     {quiz.question}

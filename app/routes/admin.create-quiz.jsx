@@ -1,17 +1,10 @@
 import React from "react";
-import { getUser } from "~/utils/session.server";
-import { createLesson } from "~/utils/prisma.server";
-import { Form } from "@remix-run/react";
+import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import { db } from "../utils/db.server";
 
-export async function loader({ request }) {
-  return null;
-}
-
 export async function action({ request }) {
   const form = await request.formData();
-  const quizCategory = form.get("quiz_category");
   const quizQuestion = form.get("quiz_question");
   const optionOne = form.get("option_1");
   const optionTwo = form.get("option_2");
@@ -23,7 +16,6 @@ export async function action({ request }) {
     await db.quiz.create({
       data: {
         question: quizQuestion,
-        category: quizCategory,
         options: {
           create: [
             { text: optionOne, isCorrect: correctOption === 0 },
@@ -36,11 +28,14 @@ export async function action({ request }) {
     });
     return redirect("/admin");
   } catch (error) {
+    console.error("Error:", error);
     return json({ message: "Error creating quiz" }, 500);
   }
 }
 
 export default function CreateQuiz() {
+  const navigation = useNavigation();
+  const data = useActionData();
   return (
     <section className="min-h-screen py-1 bg-slate-100">
       <div className="max-w-3xl mx-auto py-12">
@@ -49,18 +44,7 @@ export default function CreateQuiz() {
           method="POST"
           className="w-full flex flex-col items-center mx-auto justify-center drop-shadow-xl rounded-md bg-white p-8"
         >
-          <div className="w-full mb-8 mx-auto">
-            <label htmlFor="quiz-category">Quiz category</label>
-            <select
-              required
-              id="quiz-category"
-              name="quiz_category"
-              className="w-full  p-2 rounded-md border border-black bg-slate-100"
-            >
-              <option value="data-structures">Data structures</option>
-              <option value="algorithms">Algorithms</option>
-            </select>
-          </div>
+          <div className="w-full mb-8 mx-auto"></div>
           <div className="mb-8 w-full">
             <label htmlFor="quiz-question">Quiz question</label>
             <textarea
@@ -127,9 +111,16 @@ export default function CreateQuiz() {
             </select>
           </div>
 
-          <button type="submit" className="bg-slate-300 p-2 rounded-md">
-            Create Quiz
+          <button
+            disabled={navigation.state === "submitting"}
+            type="submit"
+            className="bg-slate-300 p-2 rounded-md"
+          >
+            {navigation.state === "submitting"
+              ? "Creating quiz..."
+              : "Create Quiz"}
           </button>
+          {data?.message ? <p>{data?.message}</p> : null}
         </Form>
       </div>
     </section>

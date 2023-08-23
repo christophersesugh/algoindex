@@ -15,6 +15,7 @@ model User {
   email        String @unique
   passwordHash String
   role         String @default("USER")
+  quizScore    Int    @default(0)
 }
 
 model Category {
@@ -40,13 +41,12 @@ model Lesson {
   updatedAt DateTime @updatedAt
   content   String
   courseId  String   @db.ObjectId
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id])
 }
 
 model Quiz {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   question String
-  category String
   options  Option[]
 }
 

@@ -50,6 +50,7 @@ function getUserSession(request) {
 export async function getUserId(request) {
   const session = await getUserSession(request);
   const userId = session.get("userId");
+  console.log(session.get("userId"));
   if (!userId || typeof userId !== "string") {
     return null;
   }
@@ -72,7 +73,7 @@ export async function getUser(request) {
   }
 
   const user = await db.user.findUnique({
-    select: { id: true, email: true, role: true },
+    select: { id: true, email: true, role: true, quizScore: true },
     where: { id: userId },
   });
 

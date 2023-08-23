@@ -19,7 +19,6 @@ export async function loader({ request }) {
 export async function action({ request }) {
   const form = await request.formData();
   const userId = form.get("user_id");
-  // const userEmail = form.get("user_email");
   const userPassword = form.get("user_password");
   if (userPassword) {
     const passwordHash = await bcrypt.hash(userPassword, 10);
@@ -27,7 +26,7 @@ export async function action({ request }) {
       where: { id: userId },
       data: { passwordHash },
     });
-    return { message: "Password update succes." };
+    return { message: "Password update success." };
   }
   return null;
 }
@@ -78,14 +77,9 @@ export default function MyAccount() {
           ) : null}
           <div className="mt-12 justify-self-start self-start">
             <h1 className="mb-4 text-left text-lg text-slate-600">
-              Quiz scores
+              <span className="text-slate-400">Quiz score</span>:{" "}
+              {user.quizScore}%
             </h1>
-            <p className="mb-2">
-              <span className="text-slate-500">Data structures</span>: 80%
-            </p>
-            <p>
-              <span className="text-slate-500">Algorithms</span>: 80%
-            </p>
           </div>
 
           {user.role === "ADMIN" ? (
