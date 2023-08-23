@@ -3,7 +3,7 @@ import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
 import React from "react";
 import { getUser } from "~/utils/session.server";
 import { MdDelete } from "react-icons/md";
-import { FaEdit, FaSpinner } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { db } from "~/utils/db.server";
 import { getCourses } from "../utils/prisma.server";
 
@@ -76,7 +76,7 @@ export default function Admin() {
                       {course ? (
                         course?.lessons.map((lesson) => (
                           <div
-                            className={`flex justify-between w-full p-2  ${
+                            className={`flex justify-between border-b border-black gap-4 items-center w-full p-2  ${
                               navigation.state === ("submitting" || "loading")
                                 ? "opacity-70 bg-black"
                                 : ""
@@ -126,43 +126,31 @@ export default function Admin() {
           method="POST"
           action="/admin?index"
         >
-          {Array.isArray(quizzes) && quizzes.length ? (
-            quizzes.map((quiz) => (
-              <div
-                key={quiz.id}
-                className="rounded-md bg-slate-300/50 p-2 mb-2"
-              >
-                <div className="flex flex-col">
-                  <p>
-                    <span className="mr-2 text-lg">Question:</span>
-                    {quiz.question}
-                  </p>
-                </div>
-                <p className="text-lg">Option:</p>
-                <div className="flex gap-4">
-                  {quiz.options.map((option, index) => (
-                    <div key={option.id} className="flex justify-start">
-                      <p>
-                        <span className="mr-1">{index + 1}.</span> {option.text}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex gap-6 mt-4">
-                  <Link to={`create-quiz/${quiz.id}`}>
-                    <button>
-                      <FaEdit className="text-green-500" />
+          <h2 className="text-lg">Quizzes</h2>
+          <div className="bg-slate-300/50 p-2">
+            {Array.isArray(quizzes) && quizzes.length ? (
+              quizzes.map((quiz) => (
+                <div
+                  key={quiz.id}
+                  className="rounded-md flex items-center gap-4 justify-between  mb-2 border-b border-black"
+                >
+                  <p>{quiz.question.substring(0, 65)}...</p>
+                  <div className="flex gap-6 mt-4">
+                    <Link to={`create-quiz/${quiz.id}`}>
+                      <button>
+                        <FaEdit className="text-green-500" />
+                      </button>
+                    </Link>
+                    <button type="submit" value={quiz.id} name="quiz_id">
+                      <MdDelete className="text-red-500" />
                     </button>
-                  </Link>
-                  <button type="submit" value={quiz.id} name="quiz_id">
-                    <MdDelete className="text-red-500" />
-                  </button>
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p>No quizzes</p>
-          )}
+              ))
+            ) : (
+              <p>No quizzes</p>
+            )}
+          </div>
         </Form>
       </div>
     </section>

@@ -42,6 +42,7 @@ async function createLesson(courseTitle, categoryName, lessonData) {
     data: {
       title: lessonData.title,
       content: yaml.dump(lessonData.content),
+
       course: {
         connect: {
           id: course.id,

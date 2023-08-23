@@ -21,6 +21,7 @@ export const loader = async ({ params }) => {
 
 export default function Lesson() {
   const { lesson } = useLoaderData();
+  console.log(lesson);
   return (
     <section className="min-w-full min-h-screen max-w-3xl bg-slate-100">
       <div className="max-w-3xl py-12 mx-auto px-4">
@@ -30,7 +31,7 @@ export default function Lesson() {
         </Link> */}
         <div>
           <h1 className="text-2xl text-blue-950 bg-slate-200 p-2 rounded-sm">
-            {lesson.course.title}
+            {lesson?.course.title}
           </h1>
           <h2 className="text-xl text-blue-700 bg-slate-200 p-2 rounded-sm">
             {lesson.title}
