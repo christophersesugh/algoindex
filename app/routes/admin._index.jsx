@@ -1,9 +1,9 @@
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
 import React from "react";
 import { getUser } from "~/utils/session.server";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSpinner } from "react-icons/fa";
 import { db } from "~/utils/db.server";
 import { getCourses } from "../utils/prisma.server";
 
@@ -33,9 +33,12 @@ export const action = async ({ request }) => {
   if (quizId) {
     try {
       await db.option.deleteMany({ where: { quizId } });
-      await db.quiz.delete({ where: quizId });
+      await db.quiz.delete({
+        where: { id: quizId },
+      });
       return json({ message: "Quiz delete success." }, 200);
     } catch (error) {
+      console.log(error);
       return json({ message: "Error deleting quiz." }, 500);
     }
   }
@@ -44,8 +47,9 @@ export const action = async ({ request }) => {
 
 export default function Admin() {
   const { categoriess, quizzes } = useLoaderData();
+  const navigation = useNavigation();
   return (
-    <section className="min-h-screen bg-slate-100 py-12">
+    <section className={`min-h-screen bg-slate-100  py-12 `}>
       <div className="max-w-2xl mx-auto px-4">
         <div className="flex justify-around">
           <Link to="create">
@@ -61,7 +65,7 @@ export default function Admin() {
         </div>
         <Form
           method="POST"
-          className="mt-8 bg-slate-300/50 min-w-full rounded-md w-full p-2"
+          className={`mt-8 bg-slate-300/50 min-w-full rounded-md w-full p-2 `}
         >
           {categoriess ? (
             categoriess.map((category) => (
@@ -72,7 +76,11 @@ export default function Admin() {
                       {course ? (
                         course?.lessons.map((lesson) => (
                           <div
-                            className="flex justify-between w-full p-4"
+                            className={`flex justify-between w-full p-2  ${
+                              navigation.state === ("submitting" || "loading")
+                                ? "opacity-70 bg-black"
+                                : ""
+                            }`}
                             key={lesson.id}
                           >
                             <Link to={`/dsa/${course.id}/${lesson.id}`}>
@@ -109,7 +117,15 @@ export default function Admin() {
           )}
         </Form>
 
-        <Form className="mt-8" method="POST">
+        <Form
+          className={`mt-8  ${
+            navigation.state === ("submitting" || "loading")
+              ? "opacity-70 bg-black"
+              : ""
+          }`}
+          method="POST"
+          action="/admin?index"
+        >
           {Array.isArray(quizzes) && quizzes.length ? (
             quizzes.map((quiz) => (
               <div
