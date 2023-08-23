@@ -22,7 +22,6 @@ export async function login({ email, password }) {
   if (!isCorrectPassword) {
     return null;
   }
-
   return { id: user.id, email, role: user.role };
 }
 
@@ -50,7 +49,6 @@ function getUserSession(request) {
 export async function getUserId(request) {
   const session = await getUserSession(request);
   const userId = session.get("userId");
-  console.log(session.get("userId"));
   if (!userId || typeof userId !== "string") {
     return null;
   }
@@ -73,8 +71,8 @@ export async function getUser(request) {
   }
 
   const user = await db.user.findUnique({
-    select: { id: true, email: true, role: true, quizScore: true },
     where: { id: userId },
+    select: { id: true, email: true, role: true, quizScore: true },
   });
 
   if (!user) {
@@ -93,7 +91,7 @@ export async function logout(request) {
   });
 }
 
-export async function createUserSession(userId, role) {
+export async function createUserSession(userId) {
   const session = await storage.getSession();
   session.set("userId", userId);
 

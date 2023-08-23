@@ -2,8 +2,10 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "npx prisma generate && remix build",
+    "build": "remix build",
     "dev": "remix dev",
+    "vercel-build": "prisma generate && remix build",
+    "prisma:generate": "prisma generate",
     "typecheck": "tsc"
   },
   "dependencies": {

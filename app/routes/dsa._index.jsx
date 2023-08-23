@@ -12,8 +12,8 @@ export const loader = async () => {
 };
 
 export const action = async ({ request }) => {
-  const form = await request?.formData();
-  const searchTerm = form?.get("search").toLowerCase();
+  const form = await request.formData();
+  const searchTerm = form.get("search").toLowerCase();
   const categories = await getCourses(searchTerm);
   return json({
     categories,
