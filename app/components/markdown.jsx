@@ -57,6 +57,22 @@ export function P({ node, children, ...props }) {
     </p>
   );
 }
+export function UL({ node, children, ...props }) {
+  return (
+    <ul className="my-2 list-disc" {...props}>
+      {children}
+    </ul>
+  );
+}
+
+export function OL({ node, children, ...props }) {
+  return (
+    <ol className="my-2 list-decimal" {...props}>
+      {children}
+    </ol>
+  );
+}
+
 export function BlockQuote({ node, children, ...props }) {
   return (
     <blockquote
