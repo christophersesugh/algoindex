@@ -1,11 +1,14 @@
 import React from "react";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
+
 import { db } from "~/utils/db.server";
 import { createUserSession, login, register } from "~/utils/session.server";
 import { FaSpinner } from "react-icons/fa";
 
 function validateEmail(email) {
-  if (!email.includes("@")) {
+  const validDomain = ["gmail.com", "outlook.com", "yahoo.com"];
+  const validEMail = email.split("@")[1];
+  if (!validDomain.includes(validEMail)) {
     return "Incorrect email address";
   }
 }
