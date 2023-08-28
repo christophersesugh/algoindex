@@ -50,7 +50,6 @@ export default function Quiz() {
   const navigation = useNavigation();
   const [currentQuizQuestion, setCurrentQuizQuestion] = React.useState(0);
   const [correctAnswersCount, setCorrectAnswersCount] = React.useState(0);
-  // const [quizScore, setQuizScore] = React.useState(0);
   const [startQuiz, setStartQuiz] = React.useState(false);
   const handleNextQuestion = (isCorrect) => {
     if (isCorrect) {

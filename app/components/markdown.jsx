@@ -22,21 +22,21 @@ export function CodeBlock({ node, inline, className, children, ...props }) {
 
 export function H1({ node, children, ...props }) {
   return (
-    <h1 className="text-3xl my-2 capitalize" {...props}>
+    <h1 className="text-4xl my-6 capitalize" {...props}>
       {children}
     </h1>
   );
 }
 export function H2({ node, children, ...props }) {
   return (
-    <h2 className="text-2xl my-2 capitalize" {...props}>
+    <h2 className="text-3xl my-4 capitalize" {...props}>
       {children}
     </h2>
   );
 }
 export function H3({ node, children, ...props }) {
   return (
-    <h3 className="text-xl my-2 capitalize" {...props}>
+    <h3 className="text-2xl my-3 capitalize" {...props}>
       {children}
     </h3>
   );
@@ -44,7 +44,7 @@ export function H3({ node, children, ...props }) {
 
 export function H4({ node, children, ...props }) {
   return (
-    <h4 className="text-lg my-2 capitalize" {...props}>
+    <h4 className="text-xl my-2 capitalize" {...props}>
       {children}
     </h4>
   );
@@ -52,14 +52,14 @@ export function H4({ node, children, ...props }) {
 
 export function P({ node, children, ...props }) {
   return (
-    <p className="my-2" {...props}>
+    <p className="my-4" {...props}>
       {children}
     </p>
   );
 }
 export function UL({ node, children, ...props }) {
   return (
-    <ul className="my-2 list-disc" {...props}>
+    <ul className="my-4 list-disc" {...props}>
       {children}
     </ul>
   );
@@ -86,17 +86,19 @@ export function BlockQuote({ node, children, ...props }) {
 
 export function Markdown({ source }) {
   return (
-    <ReactMarkdown
-      children={source}
-      components={{
-        h1: H1,
-        h2: H2,
-        h3: H3,
-        h4: H4,
-        p: P,
-        code: CodeBlock,
-        blockquote: BlockQuote,
-      }}
-    />
+    <div className="markdown">
+      <ReactMarkdown
+        children={source}
+        components={{
+          h1: H1,
+          h2: H2,
+          h3: H3,
+          h4: H4,
+          p: P,
+          code: CodeBlock,
+          blockquote: BlockQuote,
+        }}
+      />
+    </div>
   );
 }

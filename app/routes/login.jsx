@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
-
 import { db } from "~/utils/db.server";
 import { createUserSession, login, register } from "~/utils/session.server";
 import { FaSpinner } from "react-icons/fa";
