@@ -32,9 +32,9 @@ export default function Lesson() {
           <h1 className="text-2xl text-blue-950 bg-slate-200 p-2 rounded-sm">
             {lesson?.course.title}
           </h1>
-          <h2 className="text-xl text-blue-700 bg-slate-200 p-2 rounded-sm">
+          {/* <h2 className="text-xl text-blue-700 bg-slate-200 p-2 rounded-sm">
             {lesson.title}
-          </h2>
+          </h2> */}
         </div>
         <div className="mt-12 markdown">
           <Markdown source={lesson.content} />
